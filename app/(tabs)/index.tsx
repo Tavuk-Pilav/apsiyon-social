@@ -32,28 +32,26 @@ const App = () => {
     {
       id: '1',
       image: require('./deneme.png'),
-      name: 'Ayşe Öztürk',
+      user_id: '1',
       text: 'çok güzel eğlendik 1',
-      likes: ['1', '2', '3'],
       group: '1'
     },
     {
       id: '2',
       image: require('./deneme.png'),
-      name: 'Ayşe Öztürk',
+      user_id: '2',
       text: 'çok güzel eğlendik 2',
-      likes: ['1', '2'],
       group: '4'
     },
     {
       id: '3',
       image: require('./deneme.png'),
-      name: 'Ayşe Öztürk',
+      user_id: '3',
       text: 'çok güzel eğlendik 3',
-      likes: ['1'],
       group: '3'
     }
   ];
+
 
   const comments = [
     { id: '1', name: "Elif Nur Kemiksiz", text: 'Çok güzelmiş!', item_id: '1'},
@@ -69,6 +67,15 @@ const App = () => {
     {userId: '2', postId: '2'},
   ];
 
+  const blocks = [
+    { blockerId: '1', blockedId: '2' },
+    { blockerId: '3', blockedId: '1' }
+  ];
+
+  const getUserNameById = (userId) => {
+    return users.find(user => user.id === userId)?.name;
+  };
+
   const getUserGroups = () => {
     const currentUser = users.find(user => user.id === CurrentUserId);
     return groups.filter(group => currentUser.groups.includes(group.id));
@@ -80,11 +87,18 @@ const App = () => {
   }, []);
 
   const getFilteredPosts = useMemo(() => {
+    const currentUserBlockedIds = blocks
+      .filter(block => block.blockerId === CurrentUserId)
+      .map(block => block.blockedId);
+  
+    const postsExcludingBlocked = posts.filter(post => !currentUserBlockedIds.includes(post.user_id));
+  
     if (selectedGroup === 'all') {
-      return posts;
+      return postsExcludingBlocked;
     }
-    return posts.filter(post => post.group === selectedGroup);
-  }, [posts, selectedGroup]);
+    return postsExcludingBlocked.filter(post => post.group === selectedGroup);
+  }, [posts, selectedGroup, blocks, CurrentUserId]);
+  
 
   const getCommentCount = useCallback((postId) => {
     return comments.filter(comment => comment.item_id === postId).length;
@@ -103,6 +117,18 @@ const App = () => {
   const getFirstLikerName = (postId) => {
     const firstLikerId = likes.find(like => like.postId === postId)?.userId;
     return users.find(user => user.id === firstLikerId)?.name;
+  };
+
+  const getLikesCount = (postId) => {
+    return likes.filter(like => like.postId === postId).length;
+  };
+
+  const renderLikeText = (postId) => {
+    const count = getLikesCount(postId);
+    if (count === 0) return '';
+    const firstLiker = getFirstLikerName(postId);
+    if (count === 1) return `${firstLiker} beğendi`;
+    return `${firstLiker} ve ${count - 1} kişi beğendi`;
   };
 
   return (
@@ -152,13 +178,13 @@ const App = () => {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <Image source={item.image} style={styles.postImage} />
-            <Text style={styles.postName}>{item.name}</Text>
+            <Text style={styles.postName}>{getUserNameById(item.user_id)}</Text>
             <Text style={styles.postText}>{item.text}</Text>
             <View style={styles.postActions}>
               <TouchableOpacity onPress={() => handleLikePost(item.id)}>
                 {likedPosts.includes(item.id) ? <AntDesign name="heart" size={32} color="#a8ddf5"  />  : <AntDesign name="hearto" size={32} color="black" />}
               </TouchableOpacity>
-              <Text style={styles.likes}>{getFirstLikerName(item.id)}{item.likes.length -1 == 0? <Text></Text>:<Text> ve {item.likes.length -1} kişi</Text>}  </Text>
+              <Text style={styles.likes}>{renderLikeText(item.id)}</Text>
               <TouchableOpacity onPress={() => {
                 setSelectedPostId(item.id);
                 setCommentsVisible(true);

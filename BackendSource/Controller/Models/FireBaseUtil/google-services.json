@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "918417977785",
+    "project_id": "apsiyonsocial",
+    "storage_bucket": "apsiyonsocial.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918417977785:android:5c9762a72698d95c724668",
+        "android_client_info": {
+          "package_name": "com.profilepageapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxD149xuAoZZJdBu9wq8ITK0yCs3K7i7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
