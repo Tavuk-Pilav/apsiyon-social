@@ -22,33 +22,16 @@ const groups = [
 const posts = [
   {
     id: '1',
-    image: require('./deneme.png'),
-    name: 'Ayşe Öztürk',
-    text: 'çok güzel eğlendik 1',
+    image: require('./site1.jpg'),
+    name: 'Enes Fehmi Manan',
+    text: 'Sitemizin çok güzel bir fotoğrafı!',
     likes: 'Sevgi Akca ve diğer 3 kişi',
     group: '1'
-  },
-  {
-    id: '2',
-    image: require('./deneme.png'),
-    name: 'Ayşe Öztürk',
-    text: 'çok güzel eğlendik 2',
-    likes: 'Sevgi Akca ve diğer 3 kişi',
-    group: '4'
-  },
-  {
-    id: '3',
-    image: require('./deneme.png'),
-    name: 'Ayşe Öztürk',
-    text: 'çok güzel eğlendik 3',
-    likes: 'Sevgi Akca ve diğer 3 kişi',
-    group: '3'
   }
 ];
 
 const comments = [
   { id: '1', name: "Elif Nur Kemiksiz", text: 'Çok güzelmiş!', item_id: '1' },
-  { id: '2', name: "Elif Nur Kemiksiz", text: 'Harika!', item_id: '1' },
   { id: '3', name: "Elif Nur Kemiksiz", text: 'Bunu beğendim.', item_id: '2' }
 ];
 
@@ -144,7 +127,7 @@ const App = () => {
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={selectImage}>
           <Image
-            source={profilePhoto ? { uri: profilePhoto.uri } : require('./default_profile.png')}
+            source={profilePhoto ? { uri: profilePhoto.uri } : require('./enes.jpg')}
             style={styles.profilePhoto}
           />
         </TouchableOpacity>
@@ -157,6 +140,8 @@ const App = () => {
           multiline
         />
         {isModified && <Button title="Kaydet" onPress={handleSave} />}
+        <Text style={styles.name}> </Text>
+        <Text style={styles.name}>Gönderilerim</Text>
       </View>
       <FlatList
         data={userPosts}
@@ -247,15 +232,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   post: {
-    marginBottom: 16,
     backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 1,
+    borderColor: '#a8ddf5',
+    borderRadius: 10,
+    borderWidth: 3,
+    margin: 10,
+    padding: 10
   },
   postImage: {
     width: '100%',

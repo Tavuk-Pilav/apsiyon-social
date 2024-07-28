@@ -22,27 +22,11 @@ const groups = [
 const posts = [
   {
     id: '1',
-    image: require('./(tabs)/deneme.png'),
-    name: 'Ayşe Öztürk',
+    image: require('./(tabs)/site1.jpg'),
+    name: 'Elif Nur Kemiksiz',
     text: 'çok güzel eğlendik 1',
-    likes: 'Sevgi Akca ve diğer 3 kişi',
+    likes: 'Sevgi Akca ve diğer 5 kişi',
     group: '1'
-  },
-  {
-    id: '2',
-    image: require('./(tabs)/deneme.png'),
-    name: 'Ayşe Öztürk',
-    text: 'çok güzel eğlendik 2',
-    likes: 'Sevgi Akca ve diğer 3 kişi',
-    group: '4'
-  },
-  {
-    id: '3',
-    image: require('./(tabs)/deneme.png'),
-    name: 'Ayşe Öztürk',
-    text: 'çok güzel eğlendik 3',
-    likes: 'Sevgi Akca ve diğer 3 kişi',
-    group: '3'
   }
 ];
 
@@ -128,20 +112,15 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.navbar}>
-        <Image source={require('./(tabs)/ASlogo.png')} style={styles.logo} />
-        <Text style={styles.navbarText}>Apsiyon Social</Text>
-        <View style={styles.navbarLine} />
-      </View>
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={selectImage}>
           <Image
-            source={profilePhoto ? { uri: profilePhoto.uri } : require('./(tabs)/default_profile.png')}
+            source={profilePhoto ? { uri: profilePhoto.uri } : require('./(tabs)/elif.jpg')}
             style={styles.profilePhoto}
           />
         </TouchableOpacity>
         <View style={styles.nameAndFollowContainer}>
-          <Text style={styles.name}>Enes Fehmi Manan</Text>
+          <Text style={styles.name}>Elif Nur Kemiksiz</Text>
           <TouchableOpacity
             style={[styles.followButton, isFollowing && styles.followingButton]}
             onPress={() => setIsFollowing(!isFollowing)}
@@ -155,7 +134,7 @@ const App = () => {
           style={styles.bio}
           onChangeText={text => setBio(text)}
           value={bio}
-          placeholder="Biyografinizi yazın..."
+          placeholder="Bir kaş misali"
           multiline
         />
       </View>

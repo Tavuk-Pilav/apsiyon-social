@@ -31,21 +31,21 @@ const App = () => {
   const posts = [
     {
       id: '1',
-      image: require('./deneme.png'),
+      image: require('./site1.jpg'),
       user_id: '1',
       text: 'çok güzel eğlendik 1',
       group: '1'
     },
     {
       id: '2',
-      image: require('./deneme.png'),
+      image: require('./site2.jpg'),
       user_id: '2',
       text: 'çok güzel eğlendik 2',
       group: '4'
     },
     {
       id: '3',
-      image: require('./deneme.png'),
+      image: require('./site3.jpg'),
       user_id: '3',
       text: 'çok güzel eğlendik 3',
       group: '3'
@@ -178,7 +178,12 @@ const App = () => {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <Image source={item.image} style={styles.postImage} />
-            <Text style={styles.postName}>{getUserNameById(item.user_id)}</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('other_profile')}
+            >
+              <Text style={styles.postName}>{getUserNameById(item.user_id)}</Text>
+            </TouchableOpacity>
+            
             <Text style={styles.postText}>{item.text}</Text>
             <View style={styles.postActions}>
               <TouchableOpacity onPress={() => handleLikePost(item.id)}>

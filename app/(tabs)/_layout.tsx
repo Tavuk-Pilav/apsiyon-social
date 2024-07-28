@@ -5,6 +5,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AntDesign } from '@expo/vector-icons';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -33,6 +34,24 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="aksiyon"
+        options={{
+          title: 'Aksiyon',
+          tabBarIcon: ({ color, focused }) => (
+            <Image source={require('./4.png')} style={styles.logo} />
+          ),
+        }}
+      />
     </Tabs>
+    
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 30,
+    height: 30,
+    marginRight: 0,
+  }
+});
