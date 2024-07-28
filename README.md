@@ -1,4 +1,8 @@
-# Welcome to your Expo app 👋
+#Apsiyon Social
+
+This application was developed as part of the Apsiyon Hackathon. This is a social media app for 
+
+## Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
@@ -42,9 +46,15 @@ To learn more about developing your project with Expo, look at the following res
 - [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
 - [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
 
-Join our community of developers creating universal apps.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+
+##Architecture of this project.
+(https://github.com/user-attachments/assets/f39eab49-5082-4dba-a08f-1461aedb9f4d)
+
+
+##Apsiyon
+https://github.com/user-attachments/assets/7acf31b7-0921-4ac5-9478-77ee98e583ba
+
