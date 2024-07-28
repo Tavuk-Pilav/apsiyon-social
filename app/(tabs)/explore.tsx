@@ -1,102 +1,302 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, Modal, Button, TextInput } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import ImagePicker from 'react-native-image-picker';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const CurrentUserId = '2';
 
-export default function TabTwoScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+const users = [
+  { id: '1', name: 'Elif Nur Kemiksiz', groups: ['1','2'] },
+  { id: '2', name: 'Enes Fehmi Manan', groups: ['4','2'] },
+  { id: '3', name: 'Çetin Ceviz', groups: ['2','3'] },
+  { id: '4', name: 'Jenny Anderson', groups: ['4'] },
+];
+
+const groups = [
+  { id: '1', name: 'Maltepe Sitesi' },
+  { id: '2', name: 'Pendik Sitesi Halısaha Grubu' },
+  { id: '3', name: 'Siteler Arası Halısaha Grubu' },
+  { id: '4', name: 'Maltepe Sitesi Altın Günü Grubu' },
+];
+
+const posts = [
+  {
+    id: '1',
+    image: require('./deneme.png'),
+    name: 'Ayşe Öztürk',
+    text: 'çok güzel eğlendik 1',
+    likes: 'Sevgi Akca ve diğer 3 kişi',
+    group: '1'
+  },
+  {
+    id: '2',
+    image: require('./deneme.png'),
+    name: 'Ayşe Öztürk',
+    text: 'çok güzel eğlendik 2',
+    likes: 'Sevgi Akca ve diğer 3 kişi',
+    group: '4'
+  },
+  {
+    id: '3',
+    image: require('./deneme.png'),
+    name: 'Ayşe Öztürk',
+    text: 'çok güzel eğlendik 3',
+    likes: 'Sevgi Akca ve diğer 3 kişi',
+    group: '3'
+  }
+];
+
+const comments = [
+  { id: '1', name: "Elif Nur Kemiksiz", text: 'Çok güzelmiş!', item_id: '1' },
+  { id: '2', name: "Elif Nur Kemiksiz", text: 'Harika!', item_id: '1' },
+  { id: '3', name: "Elif Nur Kemiksiz", text: 'Bunu beğendim.', item_id: '2' }
+];
+
+const likes = [
+  { userId: '1', postId: '1' },
+  { userId: '1', postId: '2' },
+  { userId: '1', postId: '3' },
+  { userId: '2', postId: '1' },
+  { userId: '2', postId: '2' },
+];
+
+const App = () => {
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [bio, setBio] = useState('');
+  const [originalBio, setOriginalBio] = useState('');
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [commentsVisible, setCommentsVisible] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [liked, setLiked] = useState(false);
+  const [userGroups, setUserGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState('all');
+
+  const selectImage = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.uri) {
+        setProfilePhoto(response);
+      }
+    });
+  };
+
+  const handleSave = () => {
+    setOriginalBio(bio);
+    // Burada kaydetme işlemi yapılabilir (API çağrısı vb.)
+    alert('Değişiklikler kaydedildi!');
+  };
+
+  const isModified = bio !== originalBio;
+
+  const getUserGroups = () => {
+    const userGroupIds = users.find(user => user.id === CurrentUserId)?.groups || [];
+    return groups.filter(group => userGroupIds.includes(group.id));
+  };
+
+  useEffect(() => {
+    const fetchedUserGroups = getUserGroups();
+    setUserGroups(fetchedUserGroups);
+  }, []);
+
+  const getFilteredPosts = useMemo(() => {
+    if (selectedGroup === 'all') {
+      return posts;
+    }
+    return posts.filter(post => post.groups.includes(selectedGroup));
+  }, [posts, selectedGroup]);
+
+  const getCommentCount = useCallback((postId) => {
+    return comments.filter(comment => comment.item_id === postId).length;
+  }, [comments]);
+
+  const renderPost = ({ item }) => (
+    <View style={styles.post}>
+      <Image source={item.image} style={styles.postImage} />
+      <Text style={styles.postName}>{item.name}</Text>
+      <Text style={styles.postText}>{item.text}</Text>
+      <View style={styles.postActions}>
+        <TouchableOpacity onPress={() => setLiked(!liked)}>
+          {liked ? <AntDesign name="heart" size={32} color="#a8ddf5" /> : <AntDesign name="hearto" size={32} color="black" />}
+        </TouchableOpacity>
+        <Text style={styles.likes}>{item.likes}</Text>
+        <TouchableOpacity onPress={() => {
+          setSelectedPostId(item.id);
+          setCommentsVisible(true);
+        }}>
+          <AntDesign name="message1" size={32} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.likes}>{getCommentCount(item.id)}</Text>
+      </View>
+    </View>
   );
-}
+
+  const userPosts = posts.filter(post => likes.some(like => like.userId === CurrentUserId && like.postId === post.id));
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.navbar}>
+        <Image source={require('./ASlogo.png')} style={styles.logo} />
+        <Text style={styles.navbarText}>Apsiyon Social</Text>
+        <View style={styles.navbarLine} />
+      </View>
+      <View style={styles.profileContainer}>
+        <TouchableOpacity onPress={selectImage}>
+          <Image
+            source={profilePhoto ? { uri: profilePhoto.uri } : require('./default_profile.png')}
+            style={styles.profilePhoto}
+          />
+        </TouchableOpacity>
+        <Text style={styles.name}>Enes Fehmi Manan</Text>
+        <TextInput
+          style={styles.bio}
+          onChangeText={text => setBio(text)}
+          value={bio}
+          placeholder="Biyografinizi yazın..."
+          multiline
+        />
+        {isModified && <Button title="Kaydet" onPress={handleSave} />}
+      </View>
+      <FlatList
+        data={userPosts}
+        renderItem={renderPost}
+        keyExtractor={item => item.id}
+        style={styles.postsList}
+      />
+      <Modal
+        visible={commentsVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setCommentsVisible(false)}
+      >
+        <View style={styles.commentsPanel}>
+          <Button title="Kapat" onPress={() => setCommentsVisible(false)} />
+          <FlatList
+            data={comments.filter(comment => comment.item_id === selectedPostId)}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.commentContainer}>
+                <Text style={styles.commentName}>{item.name}</Text>
+                <Text style={styles.commentText}>{item.text}</Text>
+              </View>
+            )}
+          />
+        </View>
+      </Modal>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  titleContainer: {
+  navbar: {
+    backgroundColor: '#fff',
+    padding: 16,
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#a8ddf5',
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    marginRight: 16,
+  },
+  navbarText: {
+    color: '#a8ddf5',
+    fontSize: 18,
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center',
+  },
+  navbarLine: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: '#a8ddf5',
+  },
+  profileContainer: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  profilePhoto: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  bio: {
+    width: '100%',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10,
+    textAlign: 'center'
+  },
+  postsList: {
+    paddingHorizontal: 16,
+  },
+  post: {
+    marginBottom: 16,
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 1,
+  },
+  postImage: {
+    width: '100%',
+    height: 200,
+    marginBottom: 8,
+    borderRadius: 8,
+  },
+  postName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  postText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  postActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  likes: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
+  commentsPanel: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+    marginTop: 50,
+    borderRadius: 10,
+  },
+  commentContainer: {
+    marginBottom: 8,
+  },
+  commentName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  commentText: {
+    fontSize: 14,
   },
 });
+
+export default App;
