@@ -1,60 +1,31 @@
-#Apsiyon Social
+## Apsiyon Social
 
-This application was developed as part of the Apsiyon Hackathon. This is a social media app for 
+This application was developed as part of the Apsiyon Hackathon. Apsiyon Social is a small-scale social media platform integrated within the Apsiyon ecosystem. It allows residents to share activities, organize events, and stay connected with their community.
 
-## Welcome to your Expo app 👋
+### Features
+- **Profile Creation:** Users can create and manage profiles that display their shared content, profile photo, bio, and site/apartment/floor information.
+- **Likes and Comments:** Users can engage with posts by liking and commenting. (Dislike feature is not available.)
+- **Content Sharing:** Share a variety of content including text, photos, and videos. (A [check mechanism](https://github.com/Tavuk-Pilav/apsiyon-social-check) is included)
+- **Moderation:** Includes a mechanism to ensure appropriate content is shared.
+- **Event Management:** Create and manage events, and notify others about your participation.
+- **Notifications:** Stay updated with a notification system for relevant activities and interactions.
+- **User Management:** Follow, unfollow, block, or unblock other users.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Technologies Used
+- **[Expo](https://docs.expo.dev/)** - Framework for building cross-platform apps using React Native.
+- **[React Native](https://reactnative.dev/)** - JavaScript library for building native mobile apps.
+- **[Firebase](https://firebase.google.com/)** - Platform for building and managing backend services, including authentication and real-time databases.
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern, fast (high-performance) web framework for building APIs with Python 3.7+.
+- **[OpenAI](https://platform.openai.com/)** - API for advanced AI models used for generating content and providing conversational responses.
 
 
 
 
+## Architecture
+ 
+![Brainstorming(1)](https://github.com/user-attachments/assets/5f42aa2a-9084-47d7-8ba9-dfee24faaeb6)
 
 
-##Architecture of this project.
-(https://github.com/user-attachments/assets/f39eab49-5082-4dba-a08f-1461aedb9f4d)
-
-
-##Apsiyon
+-----
 https://github.com/user-attachments/assets/7acf31b7-0921-4ac5-9478-77ee98e583ba
 
